@@ -1,20 +1,27 @@
 $(function() {
-   $('#btn-submit').click(sendForm); 
+    $('#btn-submit').click(sendForm);
 });
 
 function sendForm(e) {
-    e.preventDefault();
-    $.ajax({
-        url: "https://formspree.io/YOUR-EMAIL-HERE", 
-        method: "POST",
-        data: {
-            clientName: $('#client-name').val(),
-            clientEmail: $('#client-email').val(),
-            comment: $('#comment').val()
-        },
-        dataType: "json"
-    })
-    .done(function() {
-        $('#message').html('Thank you for contacting us!');    
-    });
+    var form = document.querySelector('form');
+    if (!form[0].checkValidity()) {
+        form.find(':submit').click(); // We try to submit invalid form to show message 
+    }
+    else {
+        e.preventDefault();
+        $.ajax({
+                url: "https://formspree.io/YOUR_EMAIL_HERE",
+                method: "POST",
+                data: {
+                    clientName: $('#client-name').val(),
+                    clientEmail: $('#client-email').val(),
+                    comment: $('#comment').val()
+                },
+                dataType: "json"
+            })
+            .done(function() {
+                $('#message').html('Thank you for contacting us!');
+            });
+    }
+
 }
